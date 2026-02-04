@@ -84,7 +84,6 @@ require("which-key").add({
   { '<leader>k', function() vim.diagnostic.open_float() end, desc = "Open diagnostic" },
 })
 
--- vim.api.nvim_set_keymap('t', '<Esc><Esc>', [[<C-\><C-n>]], { noremap = true })
 vim.api.nvim_set_keymap('t', '<C-w>', [[<C-\><C-n><C-w>]], {noremap = true})
 vim.api.nvim_set_keymap('t', '<S-Esc>', [[<C-\><C-n>]], {noremap = true})
 
@@ -120,5 +119,3 @@ local jjui = Terminal:new({ cmd = "jjui", hidden = true, direction = "float" })
 require("which-key").add({
   {"<leader>jj", function() jjui:toggle() end, desc = "Toggle JJUI"},
 })
-
--- vim.api.nvim_set_keymap("n", "<leader>jj", function() jjui:toggle() end, {noremap})

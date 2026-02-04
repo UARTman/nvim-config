@@ -28,9 +28,10 @@ return {
     dependencies = {
       { "igorlfs/nvim-dap-view", opts = {} },
     },
-    keys = {
-      {
-        "<F5>",
+    config = function()
+      vim.keymap.set(
+        'n',
+        '<F5>',
         function()
           if (require("dap").session() == nil) then
             vim.cmd [[DapNew]]
@@ -38,26 +39,28 @@ return {
             require("dap").continue()
           end
         end,
-        desc = ""
-      }
-    },
+        { desc = "Debug Start/Continue" }
+      )
+    end,
   },
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
     config = function()
       require("dapui").setup()
+      vim.keymap.set(
+        'n',
+        '<leader>dt',
+        function() require('dapui').toggle() end,
+        { desc = "Toggle debug windows" }
+      )
     end,
-    keys = {
-      { '<leader>dt', function() require('dapui').toggle() end, desc = "Toggle debug windows" },
-    },
   },
   "mfussenegger/nvim-lint",
   "mhartington/formatter.nvim",
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.8',
-    -- or                              , branch = '0.1.x',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       require("telescope").setup {
@@ -305,9 +308,6 @@ return {
         "document_symbols",
         "git_status",
       },
-      -- source_selector = {
-      --   winbar = true,
-      -- },
       event_handlers = {
         {
           event = "after_render",
@@ -320,12 +320,9 @@ return {
                 end
               end)
             end
-            -- print("test")
           end,
         },
       },
-
-      -- fill any relevant options here
     },
     keys = {
       { '<leader>ft', ":Neotree toggle<return>",     desc = "Toggle neotree" },
@@ -433,7 +430,7 @@ return {
         -- "~/projects/*",
         -- "~/.config/*",
         -- "~/Programming/*",
-        "~/Programming/dtc-utils"
+        -- "~/Programming/deptycheck"
       },
       picker = {
         type = "telescope", -- or "fzf-lua"
@@ -454,19 +451,6 @@ return {
     },
     lazy = false,
     priority = 100,
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
-    'gorbit99/codewindow.nvim',
-    config = function()
-      local codewindow = require('codewindow')
-      codewindow.setup()
-      codewindow.apply_default_keybinds()
-    end,
   },
   {
     "NotAShelf/direnv.nvim",
@@ -549,13 +533,6 @@ return {
     },
   },
   -- {
-  --   'swaits/lazyjj.nvim',
-  --   dependencies = 'nvim-lua/plenary.nvim',
-  --   opts = {
-  --     mapping = '<leader>jj'
-  --   }
-  -- },
-  -- {
   --   "willothy/flatten.nvim",
   --   opts = {
   --     window = {
@@ -575,21 +552,46 @@ return {
       require("hunk").setup()
     end,
   },
-  -- {
-  --   "m4xshen/autoclose.nvim",
-  --   opts = {},
-  -- },
-  -- {
-  --   "OXY2DEV/markview.nvim",
-  --   lazy = false,
-  --
-  --   -- For `nvim-treesitter` users.
-  --   priority = 49,
-  --
-  --   -- For blink.cmp's completion
-  --   -- source
-  --   -- dependencies = {
-  --   --     "saghen/blink.cmp"
-  --   -- },
-  -- },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = function()
+      local npairs = require("nvim-autopairs")
+      local Rule = require("nvim-autopairs.rule")
+      local cond = require('nvim-autopairs.conds')
+      npairs.setup({})
+      npairs.remove_rule('`')
+      npairs.add_rule(Rule("`", "`"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr" })))
+      npairs.remove_rule('')
+      npairs.add_rule(Rule("'", "'"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr" })))
+    end,
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
+  {
+    "kylechui/nvim-surround",
+    version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
+  {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      -- OR 'ibhagwan/fzf-lua',
+      -- OR 'folke/snacks.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup()
+    end
+  },
+  {
+    "sindrets/diffview.nvim",
+  }
 }
