@@ -71,6 +71,7 @@ vim.lsp.config("nixd", {
 vim.lsp.config("clangd", {})
 vim.lsp.config("cmake", {})
 vim.lsp.config("qmlls", {})
+vim.lsp.config("zls", {})
 
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("tinymist")
@@ -78,6 +79,7 @@ vim.lsp.enable("nixd")
 vim.lsp.enable("clangd")
 vim.lsp.enable("cmake")
 vim.lsp.enable("qmlls")
+vim.lsp.enable("zls")
 
 require("which-key").add({
   { 'grf',       function() vim.lsp.buf.format() end,        desc = "Format buffer", },
