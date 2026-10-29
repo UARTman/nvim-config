@@ -1,7 +1,9 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate"
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    build = ':TSUpdate',
+    branch = "master",
   },
   {
     "folke/which-key.nvim",
@@ -40,6 +42,14 @@ return {
           end
         end,
         { desc = "Debug Start/Continue" }
+      )
+      vim.keymap.set(
+        'n',
+        '<F9>',
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        { desc = "Toggle Breakpoint" }
       )
     end,
   },
@@ -110,12 +120,12 @@ return {
     version = "*",
     opts = { open_mapping = "<space>T", terminal_mappings = false, insert_mappings = false, }
   },
-  {
-    'numToStr/Comment.nvim',
-    opts = {
-      -- add any options here
-    }
-  },
+  -- {
+  --   'numToStr/Comment.nvim',
+  --   opts = {
+  --     -- add any options here
+  --   }
+  -- },
   {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
@@ -488,22 +498,22 @@ return {
       })
     end,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter', -- optional
-      'nvim-tree/nvim-web-devicons',     -- optional
+      -- 'nvim-nreesitter/nvim-treesitter', -- optional
+      'nvim-tree/nvim-web-devicons', -- optional
     }
   },
-  {
-    'rcarriga/nvim-notify',
-    config = function()
-      require("notify").setup({
-        merge_duplicates = true,
-        timeout = 4000,
-        top_down = false,
-        render = "wrapped-compact"
-      })
-      vim.notify = require("notify")
-    end
-  },
+  -- {
+  --   'rcarriga/nvim-notify',
+  --   config = function()
+  --     require("notify").setup({
+  --       merge_duplicates = true,
+  --       timeout = 4000,
+  --       top_down = false,
+  --       render = "wrapped-compact"
+  --     })
+  --     vim.notify = require("notify")
+  --   end
+  -- },
   {
     "chrisgrieser/nvim-rip-substitute",
     cmd = "RipSubstitute",
@@ -517,18 +527,21 @@ return {
       },
     },
   },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
-  },
+  -- {
+  --   'MeanderingProgrammer/render-markdown.nvim',
+  --   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+  --   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+  --   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  --   ---@module 'render-markdown'
+  --   ---@type render.md.UserConfig
+  --   opts = {},
+  -- },
   {
     "j-hui/fidget.nvim",
     opts = {
+      notification = {
+        override_vim_notify = true,
+      },
       -- options
     },
   },
@@ -547,7 +560,7 @@ return {
   -- }
   {
     "julienvincent/hunk.nvim",
-    cmd = { "DiffEditor" },
+    cmd = { "HunkDiffView", "HunkDiffEditor" },
     config = function()
       require("hunk").setup()
     end,
@@ -562,7 +575,7 @@ return {
       npairs.setup({})
       npairs.remove_rule('`')
       npairs.add_rule(Rule("`", "`"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr" })))
-      npairs.remove_rule('')
+      npairs.remove_rule("'")
       npairs.add_rule(Rule("'", "'"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr" })))
     end,
     -- use opts = {} for passing setup options
@@ -578,20 +591,35 @@ return {
       })
     end
   },
+  -- {
+  --   'pwntester/octo.nvim',
+  --   requires = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-telescope/telescope.nvim',
+  --     -- OR 'ibhagwan/fzf-lua',
+  --     -- OR 'folke/snacks.nvim',
+  --     'nvim-tree/nvim-web-devicons',
+  --   },
+  --   config = function()
+  --     require "octo".setup()
+  --   end
+  -- },
+  -- {
+  --   "sindrets/diffview.nvim",
+  -- },
   {
-    'pwntester/octo.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      -- OR 'ibhagwan/fzf-lua',
-      -- OR 'folke/snacks.nvim',
-      'nvim-tree/nvim-web-devicons',
+    "nicolasgb/jj.nvim",
+    dependencies = {
+      "folke/snacks.nvim",
+      "esmuellert/codediff.nvim"
     },
     config = function()
-      require "octo".setup()
-    end
-  },
-  {
-    "sindrets/diffview.nvim",
+      local jj = require("jj")
+      jj.setup({
+        diff = {
+          backend = "codediff",
+        },
+      })
+    end,
   }
 }
