@@ -576,7 +576,7 @@ return {
       npairs.remove_rule('`')
       npairs.add_rule(Rule("`", "`"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr" })))
       npairs.remove_rule("'")
-      npairs.add_rule(Rule("'", "'"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr" })))
+      npairs.add_rule(Rule("'", "'"):with_pair(cond.not_filetypes({ "idris", "idris2", "idr", "rust", "rs" })))
     end,
     -- use opts = {} for passing setup options
     -- this is equivalent to setup({}) function
