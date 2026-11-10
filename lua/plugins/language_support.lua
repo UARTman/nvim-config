@@ -20,7 +20,6 @@ return {
   {
     'ShinKage/idris2-nvim',
     dependencies = { 'neovim/nvim-lspconfig', 'MunifTanjim/nui.nvim' },
-    ft = "idris2",
     config = function()
       require('idris2').setup({
         server = {
@@ -38,7 +37,8 @@ return {
       { '<leader>ib', function() require('idris2.browse').browse() end,                  desc = "Browse namespace" },
       { '<leader>iE', function() require('idris2.repl').evaluate() end,                  desc = "Evaluate in REPL",   mode = { "n" } },
       { '<leader>iE', function() require('idris2.repl').evaluate({ visual = true }) end, desc = "Evaluate in REPL",   mode = { "v" } },
-    }
+    },
+    lazy = false,
   },
   {
     'kaarmu/typst.vim',
